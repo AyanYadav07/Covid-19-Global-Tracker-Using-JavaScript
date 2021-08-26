@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid 19 Api</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<style>
+
+    .container{
+        background: gray;
+    }
+    #tab{
+        background-color: greenyellow;
+    }
+</style>
+<body>
+    <div class="container" >
+        <h1 class="text-center mt-5">Covid 19 Live Data in Table</h1>
+        <table id="tab" class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">New Confirmed</th>
+                <th scope="col">Total Confirmed</th>
+                <th scope="col">New Deaths</th>
+                <th scope="col">Total Deaths</th>
+                <th scope="col">New Recovered</th>
+                <th scope="col">Total Recovered</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="data">
+                
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <button onclick="refreshData()" class="btn btn-danger btn-block">
+            Refresh Data
+          </button>
+    </div>   
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+        init()
+
+
+        function init(){
+            var url="https://api.covid19api.com/summary"
+
+            $.get(url,function(data){
+                
+                data=`
+                <td>${data.Global.NewConfirmed}</td>
+                <td>${data.Global.TotalConfirmed}</td>
+                <td>${data.Global.NewDeaths}</td>
+                <td>${data.Global.TotalDeaths}</td>
+                <td>${data.Global.NewRecovered}</td>
+                <td>${data.Global.TotalRecovered}</td>
+
+                `
+                $("#data").html(data)
+            })
+        }
+        function refreshData(){
+            clearData()
+            init()
+        }
+        function clearData(){
+            $("#data").empty()
+        }
+
+</script>
+<script>
+    window.watsonAssistantChatOptions = {
+        integrationID: "44d38005-0301-4e1e-82d6-9bdc057161e4", // The ID of this integration.
+        region: "eu-gb", // The region your integration is hosted in.
+        serviceInstanceID: "fbcfee2f-279b-4236-83bb-8d0f0309b2c5", // The ID of your service instance.
+        onLoad: function(instance) { instance.render(); }
+      };
+    setTimeout(function(){
+      const t=document.createElement('script');
+      t.src="https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js";
+      document.head.appendChild(t);
+    });
+</script>
+</html>
